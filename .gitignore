@@ -1,0 +1,17 @@
+# Java
+target/
+*.class
+*.jar
+*.war
+
+# Node.js / React
+node_modules/
+build/
+dist/
+
+# IDEs and environment
+.vscode/
+.idea/
+*.iml
+.DS_Store
+.env
