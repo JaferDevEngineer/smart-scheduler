@@ -2,6 +2,7 @@ package com.project.user_service.service;
 
 import java.util.List;
 
+import com.project.user_service.dto.UserDTO;
 import com.project.user_service.entity.Users;
 
 public interface UserService {
@@ -15,4 +16,6 @@ public interface UserService {
 	Users updateUser(String uid, Users updatedUser);
 
 	void deleteUser(String id);
+
+	String register(UserDTO user);
 }

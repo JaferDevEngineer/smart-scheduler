@@ -11,6 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.project.user_service.Exceptions.EmailExistException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -26,4 +28,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNotFound(ConfigDataResourceNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(EmailExistException.class)
+	public ResponseEntity<String> handleEmailException(EmailExistException e){
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+	}
 }

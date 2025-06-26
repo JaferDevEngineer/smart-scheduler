@@ -1,0 +1,127 @@
+.logIn-container {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--bg);
+}
+.logIn-box {
+  background-color: var(--white);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border: #d1070e;
+  border-radius: 10;
+}
+.welcome-text {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text);
+}
+.subtitle {
+  color: var(--subtext);
+  margin-bottom: 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.logo {
+  color: var(--primary);
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.logIn-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logIn-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+}
+
+.logIn-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2c7be5;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.logIn-box button:hover {
+  background-color: #1a5ec8;
+}
+
+:root {
+  --primary: #4f46e5;        /* Indigo */
+  --secondary: #60a5fa;      /* Sky Blue */
+  --error: #ef4444;          /* Red */
+  --bg: #f3f4f6;             /* Light Gray */
+  --text: #1f2937;           /* Dark Gray */
+  --subtext: #6b7280;        /* Medium Gray */
+  --white: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+}
+input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+}
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+button {
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+button:hover {
+  background-color: #4338ca;
+}
+
+.error-text {
+  color: var(--error);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.footer-text {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--subtext);
+}
+
+.footer-text span {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 500;
+}

@@ -41,6 +41,10 @@ public class Users {
 	private LocalDateTime createdAt;
 
 	private LocalDateTime updatedAt;
+	
+	@Column(nullable = false)
+	private String password;
+	
 
 	@PrePersist
 	public void onCreate() {
