@@ -1,0 +1,84 @@
+.home-wrapper {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #eef2f3, #8e9eab);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.hero {
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #34495e;
+}
+
+.feature-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.panel {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 350px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.panel h2 {
+  color: #4a4a4a;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card {
+  background: #f1f3f5;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.cta-btn {
+  background: #6a5acd;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  transition: background 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: #5848b4;
+}
+
+@media screen and (max-width: 768px) {
+  .feature-section {
+    flex-direction: column;
+    align-items: center;
+  }
+}

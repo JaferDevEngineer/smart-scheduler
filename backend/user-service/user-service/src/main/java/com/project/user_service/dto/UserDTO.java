@@ -20,5 +20,8 @@ public class UserDTO {
 	@NotBlank(message = "email is required")
 	@Email(message = "email is invalid")
 	private String email;
+	
+	@NotBlank(message = "password is required")
+	private String password;
 
 }
