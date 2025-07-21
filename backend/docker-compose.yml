@@ -1,8 +1,49 @@
+#version: '3.8'
+
+#services:
+ # service-registery:
+#    image: service-registery
+#    build:
+#      context: ./discovery-server/service-registery
+#    container_name: service-registery
+#    ports:
+#      - "8761:8761"
+#   networks:
+#     - smart-scheduler-network
+#  api-gateway:
+#    build:
+#      context: ./api-gateway/api-gateway
+#    container_name: api-gateway
+#    ports:
+#      - "9000:9000"
+#    networks:
+#       - smart-scheduler-network
+#  user-service:
+#    build:
+#      context: ./user-service/user-service
+#    container_name: user-service
+#    ports:
+#      - "8001:8001"
+#    networks:
+#      - smart-scheduler-network
+#  provider-service:
+#    build:
+#      context: ./provider-service/provider-service
+#    container_name: provider-service
+#    ports:
+#      - "8002:8002"
+#    networks:
+#      - smart-scheduler-network
+#networks:
+#  smart-scheduler-network:
+#    driver: bridge
+
+
+
 version: '3.8'
 
 services:
   service-registery:
-#    image: service-registery
     build:
       context: ./discovery-server/service-registery
     container_name: service-registery
@@ -10,6 +51,10 @@ services:
       - "8761:8761"
     networks:
       - smart-scheduler-network
+    mem_limit: 512m
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx256m
+
   api-gateway:
     build:
       context: ./api-gateway/api-gateway
@@ -17,7 +62,11 @@ services:
     ports:
       - "9000:9000"
     networks:
-       - smart-scheduler-network
+      - smart-scheduler-network
+    mem_limit: 512m
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx256m
+
   user-service:
     build:
       context: ./user-service/user-service
@@ -26,6 +75,10 @@ services:
       - "8001:8001"
     networks:
       - smart-scheduler-network
+    mem_limit: 512m
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx256m
+
   provider-service:
     build:
       context: ./provider-service/provider-service
@@ -34,6 +87,10 @@ services:
       - "8002:8002"
     networks:
       - smart-scheduler-network
+    mem_limit: 512m
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx256m
+
 networks:
   smart-scheduler-network:
     driver: bridge
