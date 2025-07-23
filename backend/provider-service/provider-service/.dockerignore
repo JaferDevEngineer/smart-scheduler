@@ -1,0 +1,21 @@
+# Ignore the target folder (Maven output)
+#target/
+
+# Git stuff
+.git
+.gitignore
+
+# IDEs
+.idea/
+*.iml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node stuff (if using frontend)
+node_modules/
+dist/

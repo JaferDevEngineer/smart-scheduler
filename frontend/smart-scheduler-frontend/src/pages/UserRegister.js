@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../pagetStyles/RegisterPage.css"; // CSS file
 import { registerUser } from "../services/Apis"; // you will create this function
 
-const RegisterPage = () => {
+const UserRegisterPage = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ const RegisterPage = () => {
       const response = await registerUser(email, password,name);
       console.log(`response ${JSON.stringify(response)}` )
       if (response.ok) {
-        navigate("user/login"); // redirect to login after successful registration
+        navigate("/user/login"); // redirect to login after successful registration
       } else {
         setError(response.message || "Registration failed");
       }
@@ -72,11 +72,11 @@ const RegisterPage = () => {
         </form>
         <p className="footer-text">
           Already have an account?{" "}
-          <span onClick={() => navigate("/login")}>Log In</span>
+          <span onClick={() => navigate("/user/login")}>Log In</span>
         </p>
       </div>
     </div>
   );
 };
 
-export default RegisterPage;
+export default UserRegisterPage;

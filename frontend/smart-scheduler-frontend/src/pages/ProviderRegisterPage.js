@@ -25,7 +25,7 @@ const ProviderRegisterPage = () => {
       const response = await registerUser(email, password,name);
       console.log(`response ${JSON.stringify(response)}` )
       if (response.ok) {
-        navigate("provider/login"); // redirect to login after successful registration
+        navigate("/provider/login"); // redirect to login after successful registration
       } else {
         setError(response.message || "Registration failed");
       }
