@@ -1,5 +1,5 @@
 # Ignore the target folder (Maven output)
-target/
+#target/
 
 # Git stuff
 .git
