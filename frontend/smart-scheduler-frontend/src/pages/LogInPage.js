@@ -5,7 +5,7 @@ import '../../src/pagetStyles/LogInPage.css'
 import { logInUser } from "../services/Apis";
 import smartSchedulerLogo from "../assests/new png logo (1).png"
 
-const LogInpage = () =>{
+const LogInPage = () =>{
 
     const navigate = useNavigate();
     const [password ,setPassword] = useState('');
@@ -56,7 +56,7 @@ const LogInpage = () =>{
             />
             <button type="submit">LogIn</button>
             <div className="footer-text">
-                Don't have an account <span onClick={()=>navigate('/Register')}> Register</span>
+                Don't have an account <span onClick={()=>navigate('/user/register')}> Register</span>
 
             </div>
           </form>
@@ -64,4 +64,4 @@ const LogInpage = () =>{
       </div>
     );
 }
-export default LogInpage;
+export default LogInPage;
