@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
-import '../../src/pagetStyles/LogInPage.css'
-import { logInUser } from "../services/Apis";
+import '../../src/pageStyles/LogInPage.css'
+import { logInProvider } from "../services/LoginServices";
 import smartSchedulerLogo from "../assests/new png logo (1).png"
 
 const ProviderLogInPage = () =>{
@@ -18,7 +18,7 @@ const ProviderLogInPage = () =>{
         setError('');
         try{
 
-            const response = await logInUser(email,password);
+            const response = await logInProvider(email,password);
             localStorage.setItem("jwtToken", response.token);
 
         navigate('/DashBoard')

@@ -1,7 +1,12 @@
+import api from "./api";
+
 const baseUrl = "http://localhost:9000/";
 
-export const logInUser = async (email, password) => {
+
+
+export const LogInUser = async (email, password) => {
   try {
+  
     const response = await fetch(`${baseUrl}auth/user/login`, {
       method: "POST",
       headers: {
@@ -13,14 +18,11 @@ export const logInUser = async (email, password) => {
       }),
     });
 
-    console.log("hello");
-
     if (!response.ok) {
         const error = await response.text(); // or .json() if backend sends JSON
         console.log("in failed"+ error);
         throw new Error(error || "Login failed");
     }
-
     return response.json();
   } catch (error) {
     console.error("Login Error:", error);
@@ -66,7 +68,6 @@ export const logInProvider = async (email, password) => {
       }),
     });
 
-    console.log("hello");
 
     if (!response.ok) {
         const error = await response.text(); // or .json() if backend sends JSON

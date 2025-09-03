@@ -2,6 +2,7 @@ package com.project.user_service.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.user_service.utils.Utils;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,6 +45,7 @@ public class Users {
 	private LocalDateTime updatedAt;
 	
 	@Column(nullable = false)
+	@JsonIgnore
 	private String password;
 	
 
@@ -57,4 +60,7 @@ public class Users {
 	public void onUpdate() {
 	    this.updatedAt = LocalDateTime.now();
 	}
+	@Transient
+	private String token;
+	
 }

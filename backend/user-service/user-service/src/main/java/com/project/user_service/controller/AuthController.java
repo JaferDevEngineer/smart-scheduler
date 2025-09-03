@@ -19,6 +19,7 @@ import com.project.user_service.Exceptions.EmailExistException;
 import com.project.user_service.dto.AuthRequest;
 import com.project.user_service.dto.AuthResponse;
 import com.project.user_service.dto.UserDTO;
+import com.project.user_service.entity.Users;
 import com.project.user_service.repository.UserRepository;
 import com.project.user_service.security.JWTUtil;
 import com.project.user_service.security.JwtFilter;
@@ -30,14 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/auth/user")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class AuthController {
 
 	private final UserService userService;
-	private final PasswordEncoder passwordEncoder;
-	private final JWTUtil jwtUtil;
-	private final AuthenticationManager authenticationManager;
+
 
 	@PostMapping("/register")
 	private ResponseEntity<String> register(@RequestBody UserDTO user) {
@@ -47,11 +45,7 @@ public class AuthController {
 	@PostMapping("/login")
 	private ResponseEntity<?> logIn(@RequestBody AuthRequest authrequest) {
 		try {
-			Authentication auth = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(authrequest.getEmail(), authrequest.getPassword()));
-			log.warn("auth " + auth.toString());
-			String token = jwtUtil.generateToken(authrequest.getEmail());
-			return ResponseEntity.ok(new AuthResponse(token));
+			return ResponseEntity.ok(userService.logIn(authrequest));
 		} catch (BadCredentialsException | UsernameNotFoundException e) {
 			log.error("bad credentials " + authrequest.toString());
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");

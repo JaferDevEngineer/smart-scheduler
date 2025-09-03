@@ -1,0 +1,18 @@
+.dashboard-layout {
+    display: flex;
+}
+.dashboard-content {
+  margin-left: 220px; /* same as sidebar width */
+  width: 100%;
+  min-height: 100vh;
+  background: #f7fafc;
+  padding: 20px;
+}
+
+/* .dashboard-header {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+} */

@@ -1,12 +1,14 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
-import '../../src/pagetStyles/LogInPage.css'
-import { logInUser } from "../services/Apis";
+import '../../src/pageStyles/LogInPage.css'
+import { LogInUser } from "../services/LoginServices";
 import smartSchedulerLogo from "../assests/new png logo (1).png"
+import { useAuth } from "../context/AuthContext";
 
 const LogInPage = () =>{
 
+     const { login } = useAuth();
     const navigate = useNavigate();
     const [password ,setPassword] = useState('');
     
@@ -18,15 +20,14 @@ const LogInPage = () =>{
         setError('');
         try{
 
-            const response = await logInUser(email,password);
+            const response = await LogInUser(email,password);
+            login(response);
             localStorage.setItem("jwtToken", response.token);
 
-        navigate('/DashBoard')
+        navigate('/dashboard')
         }catch(error){
             setError(error.message);
-
             console.log(`error${error}`)
-
         }
 
     }

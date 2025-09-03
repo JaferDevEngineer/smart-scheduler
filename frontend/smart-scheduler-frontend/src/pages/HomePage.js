@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../src/pagetStyles/HomePage.css';
+import '../../src/pageStyles/HomePage.css';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {

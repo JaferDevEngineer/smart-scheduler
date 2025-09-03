@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../pagetStyles/RegisterPage.css"; // CSS file
-import { registerUser } from "../services/Apis"; // you will create this function
+import "../pageStyles/RegisterPage.css"; // CSS file
+import { registerProvider } from "../services/LoginServices"; // you will create this function
 
 const ProviderRegisterPage = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const ProviderRegisterPage = () => {
     }
 
     try {
-      const response = await registerUser(email, password,name);
+      const response = await registerProvider(email, password,name);
       console.log(`response ${JSON.stringify(response)}` )
       if (response.ok) {
         navigate("/provider/login"); // redirect to login after successful registration

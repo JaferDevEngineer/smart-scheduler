@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../pagetStyles/RegisterPage.css"; // CSS file
-import { registerUser } from "../services/Apis"; // you will create this function
+import "../pageStyles/RegisterPage.css"; // CSS file
+import { registerUser } from "../services/LoginServices"; // you will create this function
 
 const UserRegisterPage = () => {
   const navigate = useNavigate();
