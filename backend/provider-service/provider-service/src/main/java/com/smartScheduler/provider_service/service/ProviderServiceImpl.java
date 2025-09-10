@@ -1,12 +1,12 @@
 package com.smartScheduler.provider_service.service;
 
-import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.smartScheduler.provider_service.Entity.Provider;
 import com.smartScheduler.provider_service.Exceptions.EmailAlreadyExistException;
+import com.smartScheduler.provider_service.Repository.ProfessionRepository;
 import com.smartScheduler.provider_service.Repository.ProviderRespository;
 import com.smartScheduler.provider_service.dto.AuthRequest;
 
@@ -18,6 +18,7 @@ public class ProviderServiceImpl implements ProviderService{
 
 	private final ProviderRespository providerRespository;
 	private final PasswordEncoder passwordEncoder;
+	private final ProfessionRepository professionRepository;
 	@Override
 	public String createUser(AuthRequest auth) {
 		Provider provider = new Provider();
@@ -27,16 +28,14 @@ public class ProviderServiceImpl implements ProviderService{
 		provider.setEmail(auth.getEmail());
 		provider.setName(auth.getName());
 		provider.setPassword(passwordEncoder.encode(auth.getPassword()));
+		provider.setProfession(professionRepository.findById(auth.getProfessionId()).get());
 	     providerRespository.save(provider);
 		return "User Created Successfully";
 	}
-
-	@Override
-	public String registerUser(AuthRequest auth) {
-		
-		return null;
-	}
-
+	
+//	public List<Provider> getAll(){
+//		
+//	}
 
 	
 }

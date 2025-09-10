@@ -6,7 +6,6 @@ public interface ProviderService {
 	
 	public String createUser(AuthRequest auth);
 	
-	public String registerUser(AuthRequest auth);
 	
 
 }

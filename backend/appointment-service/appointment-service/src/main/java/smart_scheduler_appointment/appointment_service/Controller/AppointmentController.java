@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import smart_scheduler_appointment.appointment_service.Dto.AnalyticsCount;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentRequestDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentResponseDTO;
-import smart_scheduler_appointment.appointment_service.Dto.AppointmentStatusUpdateDTO;
+import smart_scheduler_appointment.appointment_service.Dto.AppointmentUpdateDTO;
 import smart_scheduler_appointment.appointment_service.services.AppointmentService;
 
 @RestController
@@ -51,7 +52,7 @@ public class AppointmentController {
     // 4️⃣ Update status
     @PutMapping("/{appointmentId}/status")
     public ResponseEntity<AppointmentResponseDTO> updateStatus(@PathVariable Long appointmentId,
-                                                               @RequestBody AppointmentStatusUpdateDTO dto) {
+                                                               @RequestBody AppointmentUpdateDTO dto) {
         return ResponseEntity.ok(service.updateStatus(appointmentId, dto.getStatus()));
     }
 
@@ -60,4 +61,9 @@ public class AppointmentController {
     public ResponseEntity<AppointmentResponseDTO> markRated(@PathVariable Long appointmentId) {
         return ResponseEntity.ok(service.markRated(appointmentId));
     }
+//    @PatchMapping("/{appointmentId}/update")
+//    public ResponseEntity<AppointmentResponseDTO> updateAppointment(@PathVariable Long appointmentId,
+//                                                               @RequestBody AppointmentUpdateDTO dto) {
+//        return ResponseEntity.ok(service.updateAppointment(appointmentId, dto));
+//    }
 }

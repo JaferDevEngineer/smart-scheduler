@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -27,7 +29,7 @@ public class Provider {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(unique = true, nullable = false)
 	private String uid;
 
@@ -41,21 +43,25 @@ public class Provider {
 	private LocalDateTime createdAt;
 
 	private LocalDateTime updatedAt;
-	
+
 	@Column(nullable = false)
 	private String password;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "profession_id", nullable = false)
+	private Profession profession;
+
+	private String description; // e.g. "Experienced dentist with 10 years practice"
 
 	@PrePersist
 	public void onCreate() {
-	    this.createdAt = LocalDateTime.now();
-	    this.updatedAt = this.createdAt;
-	    this.uid = Utils.generateUUID();
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = this.createdAt;
+		this.uid = Utils.generateUUID();
 	}
 
 	@PreUpdate
 	public void onUpdate() {
-	    this.updatedAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
 	}
 }
-
