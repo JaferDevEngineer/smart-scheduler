@@ -9,6 +9,8 @@ import ProviderRegisterPage from './pages/ProviderRegisterPage';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardLayout from './layout/DashboardLayout';
+import AppointmentPage from './pages/AppointmentPage'
+import Providers from './pages/Providers';
 
 function App() {
   return (
@@ -26,6 +28,26 @@ function App() {
               <ProtectedRoute>
                 <DashboardLayout>
                   <Dashboard />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/appointments"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <AppointmentPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/providers"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Providers />
                 </DashboardLayout>
               </ProtectedRoute>
             }

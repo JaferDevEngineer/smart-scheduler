@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import "../pageStyles/RegisterPage.css"; // CSS file
 import { registerProvider } from "../services/LoginServices"; // you will create this function
+import {getProfessions} from '../services/Utils';
 
 const ProviderRegisterPage = () => {
   const navigate = useNavigate();
@@ -11,6 +12,21 @@ const ProviderRegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [name, setName] = useState("");
+  const [professions, setProfessions] = useState([]); // list from API
+  const [professionId, setProfessionId] = useState(""); // selected
+
+   useEffect(() => {
+    const fetchProfessions = async () => {
+      try {
+        const res = await getProfessions(); 
+        setProfessions(res);
+      } catch (err) {
+        console.error("Error fetching professions:", err);
+        setError("Error loading professions");
+      }
+    };
+    fetchProfessions();
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -22,7 +38,7 @@ const ProviderRegisterPage = () => {
     }
 
     try {
-      const response = await registerProvider(email, password,name);
+      const response = await registerProvider(email, password,name,professionId);
       console.log(`response ${JSON.stringify(response)}` )
       if (response.ok) {
         navigate("/provider/login"); // redirect to login after successful registration
@@ -54,6 +70,18 @@ const ProviderRegisterPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <select
+            value={professionId}
+            onChange={(e) => setProfessionId(e.target.value)}
+            required
+          >
+            <option value="" disabled> Select Profession</option>
+            {professions.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
           <input
             type="password"
             placeholder="Create password"

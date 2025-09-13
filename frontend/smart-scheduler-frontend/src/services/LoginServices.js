@@ -82,7 +82,7 @@ export const logInProvider = async (email, password) => {
   }
 };
 
-export const registerProvider = async (email, password, name) => {
+export const registerProvider = async (email, password, name, professionId) => {
   try {
     const response = await fetch(`${baseUrl}auth/provider/register`, {
       method: "POST",
@@ -92,7 +92,8 @@ export const registerProvider = async (email, password, name) => {
       body: JSON.stringify({
         email: email,
         password: password,
-        name : name
+        name : name,
+        professionId: professionId,
       }),
     });
     if (!response.ok) {

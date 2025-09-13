@@ -13,8 +13,13 @@ const Dashboard = () => {
       queryFn: () => getConsumerAppCount(user.id),
       staleTime: 5 * 60 * 1000, // 5 minutes
     });
-    const {data: appointments,appointmentLoading,appError} = useQuery({
-      queryKey: ["appointmens",user.id],
+    const {
+      data: appointments,
+      isLoading: appointmentLoading,
+      isError: appointmentError,
+      error: appError,
+    } = useQuery({
+      queryKey: ["appointments", user.id],
       queryFn: () => getConsumerAppointments(user.id),
       staleTime: 5 * 60 * 1000, // 5 minutes
     });
@@ -25,7 +30,7 @@ const Dashboard = () => {
   }
 
   if (error) {
-    return <div className="dashboard-container">Error loading counts</div>;
+    return <div className="dashboard-container">{`Error loading counts ${error}`}</div>;
   }
 
     return (
@@ -33,8 +38,8 @@ const Dashboard = () => {
         <h2 className="dashboard-header"> {`Welcome, ${user.name} :)`} </h2>
         <div className="status-grid">
           <div className="card pending">
-            <h3> Upcoming </h3>
-            <p>{counts.pending}</p>
+            <h3> Requested </h3>
+            <p>{counts.requested}</p>
           </div>
           <div className="card accepted ">
             <h3> Accepted </h3>
@@ -69,6 +74,32 @@ const Dashboard = () => {
                   <th>Provider</th>
                 </tr>
               </thead>
+              <tbody>
+                {appointments && appointments.length > 0 ? (
+                  appointments.map((appointment) => {
+                    const date = new Date(appointment.startDateTime);
+
+                    return (
+                      <tr key={appointment.id}>
+                        <td> {date.toLocaleDateString()}</td>
+                        <td>
+                          {date.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </td>
+                        <td>{appointment.providerId}</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="3" style={{ textAlign: "center" }}>
+                      No appointments found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
             </table>
           </div>
         </div>

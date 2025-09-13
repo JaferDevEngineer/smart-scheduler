@@ -18,22 +18,22 @@ const SideBar = () =>{
         <ul className="sidebar-links">
           <li className={location.pathname === "/dashboard" ? "active" : ""}>
           <span className="icon" > <HomeIcon /></span>
-            <Link to="/Dashboard">Home</Link>
+            <Link to="/dashboard">Home</Link>
           </li>
           <li
             className={
-              location.pathname === "/dashboard/appointments" ? "active" : ""
+              location.pathname === "/appointments" ? "active" : ""
             }
-          ><Link to="/dashboard/appointments">
+          ><Link to="/appointments">
             <span className="icon" > <AppointmentIcon /></span>
             Appointments</Link>
           </li>
           <li
             className={
-              location.pathname === "/dashboard/providers" ? "active" : ""
+              location.pathname === "/providers" ? "active" : ""
             }
           >
-            <Link to="/dashboard/providers">
+            <Link to="/providers">
             <span className="icon" > <ProviderIcon /></span>
             Providers</Link>
           </li>

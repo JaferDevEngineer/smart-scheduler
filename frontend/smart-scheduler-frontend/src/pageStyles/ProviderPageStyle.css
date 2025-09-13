@@ -1,0 +1,77 @@
+.providers-container {
+  padding: 20px;
+  background: #f9fbff;
+}
+
+.providers-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #1e3a8a; /* deep blue */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.provider-category {
+  margin-bottom: 30px;
+}
+
+.category-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2563eb; /* brighter blue */
+  margin-bottom: 15px;
+  margin-top: 10px;
+  border-left: 4px solid #2563eb;
+  padding-left: 10px;
+}
+
+.no-providers {
+  font-size: 14px;
+  color: #6b7280; /* gray */
+  margin-left: 10px;
+}
+
+.provider-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.provider-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.provider-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.provider-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 5px;
+}
+
+.provider-profession {
+  font-size: 14px;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.provider-email {
+  font-size: 13px;
+  color: #374151; /* dark gray */
+  margin-top: 4px;
+}
+
+.provider-description {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 8px;
+}
