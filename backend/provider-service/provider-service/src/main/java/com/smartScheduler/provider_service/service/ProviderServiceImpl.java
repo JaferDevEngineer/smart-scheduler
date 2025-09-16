@@ -44,7 +44,7 @@ public class ProviderServiceImpl implements ProviderService {
 	public ResponseData<Provider> getProviders(ProviderRequest providerRequest) {
 		log.warn("providerRequest "+providerRequest);
 		List<Provider> providers = providerRespository.findByProfessionAndEmailAndSearch(
-				providerRequest.getProfessionId(), providerRequest.getSearch(),
+				providerRequest.getProfessionId(), providerRequest.getSearch(),providerRequest.getCategory(),
 				PageRequest.of(providerRequest.getPage(), providerRequest.getLimit()));
 
 		return new ResponseData<>(providers, providerRespository

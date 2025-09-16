@@ -61,7 +61,7 @@
   background: white;
   border-radius: 12px;
   padding: 20px;
-  width: 600px;
+  width: 1250px;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 .appointment-container h3 {
@@ -97,5 +97,5 @@
 }
 
 .appointment-table td {
-  /* color: #333; */
+  color: #333;
 }

@@ -1,7 +1,7 @@
 .sidebar {
 width: 220px;
 height: 100vh;
-background-color: #1C2A44;
+background-color: #273A4C;
 color: white;
 position: fixed;
 top: 0;
@@ -46,7 +46,7 @@ margin-bottom: 30px;
 }
 .sidebar-links li.active, 
 .sidebar-links li:hover {
-  background-color: #2d3748;
+  background-color: #43526b;
 }
 
 .icon {

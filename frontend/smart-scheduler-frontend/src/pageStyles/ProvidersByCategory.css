@@ -1,0 +1,40 @@
+.providers-container {
+  padding: 20px;
+}
+
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.provider-header-container {
+  display: flex;
+  align-items: center;        /* Vertically align header & button */
+  justify-content: 10px; /* Space them apart */
+  margin-bottom: 20px;
+}
+
+.provider-header {
+  border-left: 4px #273A4C;
+  padding-left: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #273A4C;
+  margin: 0;
+}
+
+.back-button {
+  font-size: 1rem;                  /* Slightly smaller than header */
+  padding: 8px 16px;                /* Give size balance */
+  background-color: #273A4C;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #273A4C;
+}

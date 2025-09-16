@@ -86,7 +86,7 @@ public class AppointmentService {
 	}
 
 	public Object updateAppointment(Long appointmentId, AppointmentUpdateDTO dto) {
-
+		
 		return null;
 	}
 }

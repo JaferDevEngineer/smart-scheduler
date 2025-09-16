@@ -1,0 +1,71 @@
+.provider-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.provider-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.provider-avatar {
+  background: var(--brand-blue,#273A4C);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.provider-info {
+  flex: 1;
+  margin-left: 16px;
+}
+
+.provider-name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.provider-profession {
+  font-size: 14px;
+  color: #555;
+}
+
+.provider-email {
+  font-size: 13px;
+  color: #777;
+}
+
+.provider-slot {
+  font-size: 13px;
+  color: var(--brand-blue, #273A4C);
+  margin-top: 4px;
+}
+
+.book-btn {
+  background: var(--brand-blue, #273A4C);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.book-btn:hover {
+  background: #273A4C;
+}

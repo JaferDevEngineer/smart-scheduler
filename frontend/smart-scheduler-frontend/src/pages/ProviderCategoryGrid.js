@@ -6,15 +6,15 @@ import { FaStethoscope, FaChalkboardTeacher, FaPaintBrush, FaTools, FaBriefcase,
 
 const categories = [
 
-  { id: 1, name: "Healthcare", icon: <FaStethoscope />, description: "Doctors, Dentists, Specialists" },
-  { id: 2, name: "Education", icon: <FaChalkboardTeacher />, description: "Tutors, Trainers, Mentors" },
-  { id: 3, name: "Beauty & Wellness", icon: <FaSpa />, description: "Salons, Spas, Therapists" },
-  { id: 4, name: "Home & Repair", icon: <FaTools />, description: "Plumbers, Electricians, Carpenters" },
-  { id: 5, name: "Professional Services", icon: <FaBriefcase />, description: "Consultants, Accountants, Lawyers" },
-  { id: 6, name: "Creative & Events", icon: <FaPaintBrush />, description: "Artists, Photographers, Event Planners" },
+  { id: 1, name: "Healthcare", icon: <FaStethoscope color="#273A4C" />, description: "Doctors, Dentists, Specialists" },
+  { id: 2, name: "Education", icon: <FaChalkboardTeacher  color="#273A4C"/>, description: "Tutors, Trainers, Mentors" },
+  { id: 3, name: "Beauty & Wellness", icon: <FaSpa  color="#273A4C"/>, description: "Salons, Spas, Therapists" },
+  { id: 4, name: "Home & Repair", icon: <FaTools color="#273A4C" />, description: "Plumbers, Electricians, Carpenters" },
+  { id: 5, name: "Professional Services", icon: <FaBriefcase  color="#273A4C"/>, description: "Consultants, Accountants, Lawyers" },
+  { id: 6, name: "Creative & Events", icon: <FaPaintBrush  color="#273A4C"/>, description: "Artists, Photographers, Event Planners" },
 ];
 
-const categoryGrid = ({selectCategory}) =>{
+const categoryGrid = ({onCategorySelect}) =>{
 
 
   return (
@@ -24,7 +24,7 @@ const categoryGrid = ({selectCategory}) =>{
           <div
             key={cat.id}
             className="category-card"
-            onClick={() => selectCategory(cat.name)}
+            onClick={() => onCategorySelect(cat.name)}
           >
             <div className="icon">{cat.icon}</div>
             <h3>{cat.name}</h3>

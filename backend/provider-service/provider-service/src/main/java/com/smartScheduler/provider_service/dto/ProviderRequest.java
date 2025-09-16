@@ -7,8 +7,7 @@ import lombok.ToString;
 @ToString
 public class ProviderRequest {
 
-	private String email;
-	private String search;
+	private String email,search,category;
 	private int professionId, limit = 10, page;
 
 }

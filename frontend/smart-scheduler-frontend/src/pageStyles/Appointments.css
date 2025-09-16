@@ -4,7 +4,7 @@
 
 .page-title {
   font-size: 24px;
-  color: #1C2A44; /* professional blue */
+  color: #273A4C; /* professional blue */
   margin-bottom: 20px;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .appointments-table thead {
-  background-color: #1c2f53; /* theme blue */
+  background-color: #273A4C; /* theme blue */
   color: white;
 }
 
