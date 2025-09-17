@@ -14,6 +14,8 @@
   width: 100%;
   max-width: 320px;             /* keep SVG comfortably inside */
   margin: 4px auto 0;
+  
+
 }
 .appointment-drawer .clock-field svg {
   display: block;               /* no inline-gap */

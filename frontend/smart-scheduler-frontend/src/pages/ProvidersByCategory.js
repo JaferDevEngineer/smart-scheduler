@@ -4,6 +4,7 @@ import { useState } from "react";
 import ProviderCard from "./ProvidersCard";
 import "../pageStyles/ProvidersByCategory.css"
 import CreateAppointmentDrawer from "./CreateAppointmentDrawer";
+import { createAppointment } from "../services/appointmentService";
 
 const ProvidersByCategory = ({category,onBack}) => {
     const [selectedProvider, setSelectedProvider] = useState(null);
@@ -47,6 +48,16 @@ const ProvidersByCategory = ({category,onBack}) => {
           provider={selectedProvider}
           onClose={() => setDrawerOpen(false)}
           open={drawerOpen}
+          submit={( consumerId, providerId, startTime, endTime, notes) => {
+            
+            return createAppointment(
+              consumerId,
+              providerId,
+              startTime,
+              endTime,
+              notes,
+            );
+          }}
         />
         {/* )} */}
       </div>

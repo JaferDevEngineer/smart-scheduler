@@ -13,6 +13,11 @@ const hhmmToMinutes = (t) => {
   const [h = "0", m = "0"] = String(t).split(":");
   return (parseInt(h, 10) || 0) * 60 + (parseInt(m, 10) || 0);
 };
+const pad2 = (n) => String(n).padStart(2, "0");
+const minutesToHHMMSS = (mins) =>
+  `${pad2(Math.floor(mins / 60))}:${pad2(mins % 60)}:00`;
+const dateToYMDLocal = (d) =>
+  `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
 
 async function fetchUnavailableBlocks(providerId, consumerId, date) {
   const data = await getUnAvailableTime(consumerId, providerId, date);
@@ -29,8 +34,16 @@ async function fetchUnavailableBlocks(providerId, consumerId, date) {
 
   return blocks;
 }
+function buildDateTime(dateStr, time) {
+  return `${dateStr}T${time.substring(0, 5)}`; // keep only HH:mm
+}
 
-export default function CreateAppointmentDrawer({ onClose, provider, open }) {
+export default function CreateAppointmentDrawer({
+  onClose,
+  provider,
+  open,
+  submit,
+}) {
   const { user } = useAuth();
   const today = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(today);
@@ -42,6 +55,8 @@ export default function CreateAppointmentDrawer({ onClose, provider, open }) {
   const [canSubmit, setCanSubmit] = useState(true);
 
   const [notes, setNotes] = useState("");
+
+  const [submitting, setSubmitting] = useState(false);
   const NOTES_MAX = 500;
 
   useEffect(() => {
@@ -52,27 +67,39 @@ export default function CreateAppointmentDrawer({ onClose, provider, open }) {
     })();
   }, [provider, date]);
 
-  const handleSubmit = () => {
-    if (!canSubmit) return;
+  const handleSubmit = async () => {
+    if (!canSubmit || !provider || submitting) return;
 
-    const fromDate = new Date(date);
-    const toDate = new Date(date);
     const { fromTime, toTime } = timeRange;
+    const startTime = minutesToHHMMSS(fromTime);
+    const endTime = minutesToHHMMSS(toTime);
+    const trimmedNotes = notes.trim();
 
-    const setHM = (d, mins) =>
-      d.setHours(Math.floor(mins / 60), mins % 60, 0, 0);
-    setHM(fromDate, fromTime);
-    setHM(toDate, toTime);
-    if (toTime < fromTime) toDate.setDate(toDate.getDate() + 1);
+    let startDateTime = buildDateTime(date, startTime);
+    let endDateTime = buildDateTime(date, endTime);
+    
 
-    console.log("Creating appointment", {
-      provider: provider.id,
-      fromDate,
-      toDate,
-      timeRange,
-      notes: notes.trim(),
-    });
-    onClose();
+    console.log(
+      `request -> startTime ${startDateTime} endTime ${endDateTime} dateStr ${date} note ${trimmedNotes}`
+    );
+    try {
+      setSubmitting(true);
+      if (typeof submit === "function") {
+          await submit(
+            user.id,
+            provider?.id,
+            startDateTime,
+            endDateTime,
+            trimmedNotes
+          );
+      }
+      onClose?.();
+    } catch (err) {
+      console.error("Submit failed:", err);
+      // Optional: show a toast or inline error
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -107,7 +134,7 @@ export default function CreateAppointmentDrawer({ onClose, provider, open }) {
               selected={date}
               onChange={(d) => d && setDate(d.toISOString().split("T")[0])}
               dateFormat="EEE, dd MMM yyyy"
-              //   minDate={new Date()}
+              minDate={new Date()}
               shouldCloseOnSelect
               className="date-input"
               calendarClassName="brand-datepicker"
@@ -118,7 +145,7 @@ export default function CreateAppointmentDrawer({ onClose, provider, open }) {
           </div>
 
           {/* Time range */}
-          <div className="field clock-field">
+          <div className="field">
             <label className="field-label">Time Range</label>
             <ClockRangePicker
               value={timeRange}
@@ -159,14 +186,14 @@ export default function CreateAppointmentDrawer({ onClose, provider, open }) {
           <button
             className="save-btn"
             onClick={handleSubmit}
-            disabled={!canSubmit}
+            disabled={!canSubmit || submitting || !provider}
             title={
               !canSubmit
                 ? "Selected time overlaps an unavailable slot or is zero-length"
                 : "Confirm appointment"
             }
           >
-            Confirm Appointment
+            {submitting ? "Booking…" : "Confirm Appointment"}
           </button>
         </footer>
       </div>

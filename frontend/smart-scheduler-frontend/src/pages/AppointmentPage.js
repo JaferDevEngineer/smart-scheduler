@@ -1,14 +1,17 @@
 import React from "react";
 import "../pageStyles/Appointments.css";
-import { getConsumerAppointments } from "../services/appointmentService";
+import { getConsumerAppointments,updateAppointment } from "../services/appointmentService";
 
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
+import CreateAppointmentDrawer from "./CreateAppointmentDrawer";
 const AppointmentsPage = () => {
   const { user } = useAuth();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedAppointment,setSelectedAppointment] = useState(null);
   const {
     data: appointments = [], // default empty array
     isLoading,
@@ -68,17 +71,33 @@ const AppointmentsPage = () => {
                 </span>
               </td>
               <td className="actions">
-                <button className="edit-btn" >
+                <button
+                  className="edit-btn"
+                  onClick={() => {
+                    setDrawerOpen(true);
+                  }}
+                >
                   <FaEdit />
-                </button>
-                <button className="delete-btn">
-                  <FaTrash />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <CreateAppointmentDrawer
+        page = "update"
+        onClose={() => setDrawerOpen(false)}
+        open={drawerOpen}
+        submit={(consumerId, providerId, startTime, endTime, notes) => {
+          return updateAppointment(
+            consumerId,
+            providerId,
+            startTime,
+            endTime,
+            notes
+          );
+        }}
+      />
     </div>
   );
 };
