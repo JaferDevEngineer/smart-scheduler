@@ -1,5 +1,6 @@
 package smart_scheduler_appointment.appointment_service.Dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -15,8 +16,5 @@ public class AppointmentRequestDTO {
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private String notes;
-    
-    public static void main(String[] args) {
-		System.out.println(LocalDateTime.now());
-	}
+    private LocalDate date;
 }

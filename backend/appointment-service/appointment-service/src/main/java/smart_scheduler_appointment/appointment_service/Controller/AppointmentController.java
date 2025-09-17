@@ -18,6 +18,7 @@ import smart_scheduler_appointment.appointment_service.Dto.AnalyticsCount;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentRequestDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentResponseDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentUpdateDTO;
+import smart_scheduler_appointment.appointment_service.Dto.UnAvailableTime;
 import smart_scheduler_appointment.appointment_service.services.AppointmentService;
 
 @RestController
@@ -66,4 +67,8 @@ public class AppointmentController {
 //                                                               @RequestBody AppointmentUpdateDTO dto) {
 //        return ResponseEntity.ok(service.updateAppointment(appointmentId, dto));
 //    }
+    @PostMapping("/unAvailableTime")
+    public ResponseEntity<List<UnAvailableTime>> unAvailableTime(@RequestBody AppointmentRequestDTO dto) {
+        return ResponseEntity.ok(service.getUnAvailableTimes(dto));
+    }
 }

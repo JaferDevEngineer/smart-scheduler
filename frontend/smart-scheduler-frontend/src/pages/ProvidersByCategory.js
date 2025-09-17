@@ -7,6 +7,7 @@ import CreateAppointmentDrawer from "./CreateAppointmentDrawer";
 
 const ProvidersByCategory = ({category,onBack}) => {
     const [selectedProvider, setSelectedProvider] = useState(null);
+    const [drawerOpen, setDrawerOpen] = useState(false);
     const [search,setSearch] = useState(null);
     const [page,setPage] = useState(0);
 
@@ -19,10 +20,7 @@ const ProvidersByCategory = ({category,onBack}) => {
     return (
       <div className="provider-div">
         <div className="provider-header-container">
-          <button
-            className="back-button"
-            onClick={onBack}
-          >
+          <button className="back-button" onClick={onBack}>
             ← Back
           </button>
           <h2 className="provider-header">{category} Providers</h2>
@@ -34,19 +32,23 @@ const ProvidersByCategory = ({category,onBack}) => {
               <ProviderCard
                 key={p.id}
                 provider={p}
-                onSelect={setSelectedProvider}
+                onSelect={(provider) => {
+                  setSelectedProvider(provider);
+                  setDrawerOpen(true);
+                }}
               />
             ))
           ) : (
             <p>No providers found.</p>
           )}
         </div>
-        {selectedProvider && (
+        {/* {selectedProvider && ( */}
         <CreateAppointmentDrawer
           provider={selectedProvider}
-          onClose={() => setSelectedProvider(null)}
+          onClose={() => setDrawerOpen(false)}
+          open={drawerOpen}
         />
-      )}
+        {/* )} */}
       </div>
     );
 };

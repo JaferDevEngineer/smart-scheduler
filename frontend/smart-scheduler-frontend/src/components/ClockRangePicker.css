@@ -1,18 +1,88 @@
-.clock-range-picker {
+/* Never allow horizontal overflow inside the drawer */
+.appointment-drawer,
+.appointment-drawer .drawer-shell,
+.appointment-drawer .drawer-body {
+  box-sizing: border-box;
+  overflow-x: hidden;           /* <-- key line */
+}
+
+/* Clock area should not force horizontal scroll */
+.appointment-drawer .clock-field {
+  align-items: center;
+}
+.appointment-drawer .clock-field .clock-range {
+  width: 100%;
+  max-width: 320px;             /* keep SVG comfortably inside */
+  margin: 4px auto 0;
+}
+.appointment-drawer .clock-field svg {
+  display: block;               /* no inline-gap */
+  max-width: 100%;              /* never exceed wrapper */
+  height: auto;                 /* let height follow if container shrinks */
+}
+
+/* From/To unified control — fill safely, no overflow */
+.clock-readout.inputs{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 12px 14px;
+  margin: 10px auto 0;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, .06);
+  width: 100%;                  /* was max-content — remove! */
+  max-width: 420px;             /* keeps it inside the drawer */
+}
+
+/* Each half can shrink; no fixed min-width that can overflow */
+.clock-readout.inputs .field{
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 4px 12px;
+  flex: 1 1 140px;              /* can grow/shrink */
+  min-width: 0;                 /* allow contents to shrink */
 }
 
-.summary {
-  margin-bottom: 10px;
-  font-weight: bold;
-  display: flex;
-  gap: 20px;
+.clock-readout.inputs .field + .field{
+  margin-left: 6px;
+}
+.clock-readout.inputs .field + .field::before{
+  content:"";
+  position:absolute;
+  left:0; top:8px; bottom:8px;
+  width:1px; background:#e2e8f0; border-radius:1px;
 }
 
-.hint {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #666;
+/* Input text centered, but don’t make the inner input wider than its box */
+.clock-readout.inputs .field input{
+  width: 100%;
+  max-width: 160px;             /* guard rail */
+  text-align: center;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #0f172a;
+  font: 600 18px/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stack on very narrow drawers to avoid overflow entirely */
+@media (max-width: 380px){
+  .clock-readout.inputs{
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .clock-readout.inputs .field + .field{
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .clock-readout.inputs .field + .field::before{
+    display: none;
+  }
 }

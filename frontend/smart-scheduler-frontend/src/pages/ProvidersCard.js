@@ -3,7 +3,6 @@ import "../pageStyles/ProviderCard.css";
 const ProviderCard = ({ provider, onSelect }) => {
   return (
     <div className="provider-card" onClick={() => {
-        console.log(`hello ${provider}`)
         onSelect(provider)}}>
       <div className="provider-avatar">
         {provider.name.charAt(0).toUpperCase()}

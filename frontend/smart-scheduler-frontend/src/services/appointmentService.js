@@ -18,3 +18,7 @@ export async function getConsumerAppCount(consumerId) { //consumer/1/analytics
     console.log('Fetched appointment counts:', res);
     return res.data;
 }
+export async function getUnAvailableTime(consumerId,providerId,date) {
+    const res = await Api.post(`${module}unAvailableTime`,{consumerId:consumerId,providerId:providerId,date:date });
+    return res.data;
+}

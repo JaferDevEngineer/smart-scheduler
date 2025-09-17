@@ -2,6 +2,7 @@ package smart_scheduler_appointment.appointment_service.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import smart_scheduler_appointment.appointment_service.Dto.AnalyticsCount;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentRequestDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentResponseDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentUpdateDTO;
+import smart_scheduler_appointment.appointment_service.Dto.UnAvailableTime;
 import smart_scheduler_appointment.appointment_service.Entitys.Appointment;
 import smart_scheduler_appointment.appointment_service.Repository.AppointmentRepository;
 import smart_scheduler_appointment.appointment_service.data.Constants;
@@ -30,6 +32,7 @@ public class AppointmentService {
 		if (!appointmentRepository.hasCustomerConflict(dto.getConsumerId(),
 				dto.getStartDateTime().toLocalDate().atStartOfDay(), dto.getEndDateTime().toLocalDate().atStartOfDay(),
 				dto.getStartDateTime(), dto.getEndDateTime())) {
+			
 			Appointment appointment = Appointment.builder().consumerId(dto.getConsumerId())
 					.providerId(dto.getProviderId()).startDateTime(dto.getStartDateTime())
 					.endDateTime(dto.getEndDateTime()).notes(dto.getNotes()).status(AppointmentStatus.REQUESTED)
@@ -89,4 +92,10 @@ public class AppointmentService {
 		
 		return null;
 	}
+
+	public List<UnAvailableTime> getUnAvailableTimes(AppointmentRequestDTO request) {
+		return appointmentRepository
+				.getUnAvailableTime(request.getConsumerId(), request.getProviderId(), request.getDate());
+	}
+	 
 }
