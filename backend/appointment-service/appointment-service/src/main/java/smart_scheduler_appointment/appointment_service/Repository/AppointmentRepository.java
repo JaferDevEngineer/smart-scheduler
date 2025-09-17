@@ -40,6 +40,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 		      AND a.status IN ('REQUESTED', 'ACCEPTED')
 		      AND a.startDateTime < :desiredEnd
 		      AND a.endDateTime > :desiredStart
+			  AND (:updateAppId is null or a.uid != :updateAppId)
 		""")
 //	AND a.startDateTime >= :dayStart
 //	AND a.startDateTime < :dayEnd
@@ -47,7 +48,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 		                            @Param("dayStart") LocalDateTime dayStart,
 		                            @Param("dayEnd") LocalDateTime dayEnd,
 		                            @Param("desiredStart") LocalDateTime desiredStart,
-		                            @Param("desiredEnd") LocalDateTime desiredEnd);
+		                            @Param("desiredEnd") LocalDateTime desiredEnd,
+		                            @Param("updateAppId") String updateAppId);
 
 	@Query("""
 		    SELECT new smart_scheduler_appointment.appointment_service.Dto.UnAvailableTime(
@@ -61,5 +63,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 		      AND a.status IN ('ACCEPTED',COMPLETED)
 		""")
 		List<UnAvailableTime> getUnAvailableTime(Long consumerId, Long providerId, LocalDate date);
+
+	Optional<Appointment> findByUid(String appointmentId);
 
 }

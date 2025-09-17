@@ -1,5 +1,6 @@
 package smart_scheduler_appointment.appointment_service.services;
 
+import java.lang.module.ResolutionException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,8 +32,8 @@ public class AppointmentService {
 	public AppointmentResponseDTO create(AppointmentRequestDTO dto) {
 		if (!appointmentRepository.hasCustomerConflict(dto.getConsumerId(),
 				dto.getStartDateTime().toLocalDate().atStartOfDay(), dto.getEndDateTime().toLocalDate().atStartOfDay(),
-				dto.getStartDateTime(), dto.getEndDateTime())) {
-			
+				dto.getStartDateTime(), dto.getEndDateTime(),null)) {
+
 			Appointment appointment = Appointment.builder().consumerId(dto.getConsumerId())
 					.providerId(dto.getProviderId()).startDateTime(dto.getStartDateTime())
 					.endDateTime(dto.getEndDateTime()).notes(dto.getNotes()).status(AppointmentStatus.REQUESTED)
@@ -88,14 +89,32 @@ public class AppointmentService {
 		return appointmentRepository.analyticsCount(consumerId);
 	}
 
-	public Object updateAppointment(Long appointmentId, AppointmentUpdateDTO dto) {
+	public AppointmentResponseDTO updateAppointment(String appointmentId, AppointmentUpdateDTO dto) {
+		Appointment app = appointmentRepository.findByUid(appointmentId)
+				.orElseThrow(() -> new ResolutionException(Constants.INVALID_APP_ID));
 		
-		return null;
+		if (dto.isCancelled()) {
+			app.setStatus(AppointmentStatus.CANCELLED);
+
+		} else if (dto.isDateChanged() ) {
+			if(!appointmentRepository.hasCustomerConflict(app.getConsumerId(),
+					dto.getStartDateTime().toLocalDate().atStartOfDay(), dto.getEndDateTime().toLocalDate().atStartOfDay(),
+					dto.getStartDateTime(), dto.getEndDateTime(),app.getUid())) {
+				app.setStartDateTime(dto.getStartDateTime());
+				app.setEndDateTime(dto.getEndDateTime());
+				app.setStatus(AppointmentStatus.RESCHEDULED);
+			}else
+				throw new ConflitException(Constants.conflictError);
+		}
+		
+		app.setNotes(dto.getNotes());
+		appointmentRepository.save(app);
+		return mapToResponse(app);
 	}
 
 	public List<UnAvailableTime> getUnAvailableTimes(AppointmentRequestDTO request) {
-		return appointmentRepository
-				.getUnAvailableTime(request.getConsumerId(), request.getProviderId(), request.getDate());
+		return appointmentRepository.getUnAvailableTime(request.getConsumerId(), request.getProviderId(),
+				request.getDate());
 	}
-	 
+
 }

@@ -5,6 +5,7 @@ public enum AppointmentStatus {
 		REQUESTED,
 		ACCEPTED,      // approved by provider
 //	    PENDING,       // created, waiting for provider approval
+		RESCHEDULED,
 	    DECLINED,      // rejected by provider
 	    CANCELLED,     // cancelled by either user/provider before start
 	    ONGOING,       // current time between start and end

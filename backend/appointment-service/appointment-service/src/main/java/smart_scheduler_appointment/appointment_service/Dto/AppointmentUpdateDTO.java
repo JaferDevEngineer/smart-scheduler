@@ -14,5 +14,8 @@ public class AppointmentUpdateDTO {
     private AppointmentStatus status;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
+    private boolean dateChanged;
+    private boolean cancelled;
+    private String notes;
 }
 

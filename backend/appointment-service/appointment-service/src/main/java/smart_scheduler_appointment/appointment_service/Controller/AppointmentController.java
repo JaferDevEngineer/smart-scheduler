@@ -26,49 +26,57 @@ import smart_scheduler_appointment.appointment_service.services.AppointmentServi
 @RequiredArgsConstructor
 public class AppointmentController {
 
-    private final AppointmentService service;
+	private final AppointmentService service;
 
-    // 1️⃣ Create appointment
-    @PostMapping
-    public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO dto) {
-        return ResponseEntity.ok(service.create(dto));
-    }
+	// 1️⃣ Create appointment
+	@PostMapping
+	public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO dto) {
+		return ResponseEntity.ok(service.create(dto));
+	}
 
-    // 2️⃣ Get all appointments for a consumer (user)
-    @GetMapping("{consumerId}/consumerApp")
-    public ResponseEntity<List<AppointmentResponseDTO>> getConsumerAppointments(@PathVariable Long consumerId) {
-        return ResponseEntity.ok(service.getByConsumer(consumerId));
-    }
+	// 2️⃣ Get all appointments for a consumer (user)
+	@GetMapping("{consumerId}/consumerApp")
+	public ResponseEntity<List<AppointmentResponseDTO>> getConsumerAppointments(@PathVariable Long consumerId) {
+		return ResponseEntity.ok(service.getByConsumer(consumerId));
+	}
 
-    // 3️⃣ Get all appointments for a provider (business)
-    @GetMapping("/{providerId}/providerApp")
-    public ResponseEntity<List<AppointmentResponseDTO>> getProviderAppointments(@PathVariable Long providerId) {
-        return ResponseEntity.ok(service.getByProvider(providerId));
-    }
-    @GetMapping("/consumer/{consumerId}/analytics")
-    public ResponseEntity<AnalyticsCount> consumerAnalytics(@PathVariable long consumerId) {
-        return ResponseEntity.ok(service.consumerAnalytics(consumerId));
-    }
+	// 3️⃣ Get all appointments for a provider (business)
+	@GetMapping("/{providerId}/providerApp")
+	public ResponseEntity<List<AppointmentResponseDTO>> getProviderAppointments(@PathVariable Long providerId) {
+		return ResponseEntity.ok(service.getByProvider(providerId));
+	}
 
-    // 4️⃣ Update status
-    @PutMapping("/{appointmentId}/status")
-    public ResponseEntity<AppointmentResponseDTO> updateStatus(@PathVariable Long appointmentId,
-                                                               @RequestBody AppointmentUpdateDTO dto) {
-        return ResponseEntity.ok(service.updateStatus(appointmentId, dto.getStatus()));
-    }
+	@GetMapping("/consumer/{consumerId}/analytics")
+	public ResponseEntity<AnalyticsCount> consumerAnalytics(@PathVariable long consumerId) {
+		return ResponseEntity.ok(service.consumerAnalytics(consumerId));
+	}
 
-    // 5️⃣ Mark as rated
-    @PutMapping("/{appointmentId}/rated")
-    public ResponseEntity<AppointmentResponseDTO> markRated(@PathVariable Long appointmentId) {
-        return ResponseEntity.ok(service.markRated(appointmentId));
-    }
+	// 4️⃣ Update status
+	@PutMapping("/{appointmentId}/status")
+	public ResponseEntity<AppointmentResponseDTO> updateStatus(@PathVariable Long appointmentId,
+			@RequestBody AppointmentUpdateDTO dto) {
+		return ResponseEntity.ok(service.updateStatus(appointmentId, dto.getStatus()));
+	}
+
+	// 5️⃣ Mark as rated
+	@PutMapping("/{appointmentId}/rated")
+	public ResponseEntity<AppointmentResponseDTO> markRated(@PathVariable Long appointmentId) {
+		return ResponseEntity.ok(service.markRated(appointmentId));
+	}
+
 //    @PatchMapping("/{appointmentId}/update")
 //    public ResponseEntity<AppointmentResponseDTO> updateAppointment(@PathVariable Long appointmentId,
 //                                                               @RequestBody AppointmentUpdateDTO dto) {
 //        return ResponseEntity.ok(service.updateAppointment(appointmentId, dto));
 //    }
-    @PostMapping("/unAvailableTime")
-    public ResponseEntity<List<UnAvailableTime>> unAvailableTime(@RequestBody AppointmentRequestDTO dto) {
-        return ResponseEntity.ok(service.getUnAvailableTimes(dto));
-    }
+	@PostMapping("/unAvailableTime")
+	public ResponseEntity<List<UnAvailableTime>> unAvailableTime(@RequestBody AppointmentRequestDTO dto) {
+		return ResponseEntity.ok(service.getUnAvailableTimes(dto));
+	}
+
+	@PatchMapping("/{appointmentId}")
+	public ResponseEntity<AppointmentResponseDTO> update(@RequestBody AppointmentUpdateDTO dto,
+			@PathVariable String appointmentId) {
+		return ResponseEntity.ok(service.updateAppointment(appointmentId, dto));
+	}
 }

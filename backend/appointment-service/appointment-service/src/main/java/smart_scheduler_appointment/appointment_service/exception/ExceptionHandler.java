@@ -20,4 +20,13 @@ public class ExceptionHandler {
 		map.put("message", e.getMessage());
 		return new ResponseEntity<>(map, HttpStatus.CONFLICT);
 	}
+	@org.springframework.web.bind.annotation.ExceptionHandler(ResourceNotFoundException.class) 
+	public ResponseEntity<Map<String, Object>> ResourceNotFoundException(ResourceNotFoundException e) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("timeStamp", LocalDate.now());
+		map.put("status", HttpStatus.NO_CONTENT.value());
+		map.put("error", "Invalid Resource");
+		map.put("message", e.getMessage());
+		return new ResponseEntity<>(map, HttpStatus.NO_CONTENT);
+	}
 }
