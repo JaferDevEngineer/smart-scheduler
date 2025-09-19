@@ -8,6 +8,7 @@ import "../pageStyles/CreateAppointmentDrawer.css";
 import ClockRangePicker from "../components/ClockRangePicker";
 import { useAuth } from "../context/AuthContext";
 import { getUnAvailableTime } from "../services/appointmentService";
+import {AppDrawPageMode} from "../constants/AppointmentDrawerPageMode"
 
 const hhmmToMinutes = (t) => {
   const [h = "0", m = "0"] = String(t).split(":");
@@ -39,6 +40,8 @@ function buildDateTime(dateStr, time) {
 }
 
 export default function CreateAppointmentDrawer({
+  pageType,
+  appointment,
   onClose,
   provider,
   open,
@@ -96,11 +99,11 @@ export default function CreateAppointmentDrawer({
       onClose?.();
     } catch (err) {
       console.error("Submit failed:", err);
-      // Optional: show a toast or inline error
     } finally {
       setSubmitting(false);
     }
   };
+  console.log(`page ${pageType} `)
 
   return (
     <Drawer
@@ -113,90 +116,96 @@ export default function CreateAppointmentDrawer({
       overlayColor="rgba(15,23,42,.42)"
       className="appointment-drawer" // your inner content styles
     >
-      <div className="drawer-shell">
-        {/* Header */}
-        <header className="drawer-header">
-          <h2 className="drawer-title">Book Appointment</h2>
-          <div className="drawer-subtitle">
-            Provider: <strong>{provider?.name}</strong>
-          </div>
-        </header>
-
-        {/* Scrollable body */}
-        <main className="drawer-body">
-          {/* Date */}
-          <div className="field">
-            <label htmlFor="dateField" className="field-label">
-              Date
-            </label>
-            <ReactDatePicker
-              id="dateField"
-              selected={date}
-              onChange={(d) => d && setDate(d.toISOString().split("T")[0])}
-              dateFormat="EEE, dd MMM yyyy"
-              minDate={new Date()}
-              shouldCloseOnSelect
-              className="date-input"
-              calendarClassName="brand-datepicker"
-              popperClassName="date-popper"
-              showPopperArrow={false}
-              todayButton="Today"
-            />
-          </div>
-
-          {/* Time range */}
-          <div className="field">
-            <label className="field-label">Time Range</label>
-            <ClockRangePicker
-              value={timeRange}
-              onChange={(next) => setTimeRange(next)}
-              onValidityChange={(ok) => setCanSubmit(ok)}
-              unavailable={unavailable}
-              size={280}
-              stepMinutes={5}
-              showReadout={true}
-              primaryColor="#273A4C"
-            />
-          </div>
-
-          {/* Notes */}
-          <div className="field">
-            <label htmlFor="notesField" className="field-label">
-              Notes (optional)
-            </label>
-            <textarea
-              id="notesField"
-              className="notes-textarea"
-              placeholder="Add any notes for the provider…"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value.slice(0, NOTES_MAX))}
-              rows={5}
-              maxLength={NOTES_MAX}
-            />
-            <div className="help-row">
-              <span className="chars">
-                {notes.length}/{NOTES_MAX}
-              </span>
+      {pageType == AppDrawPageMode.BOOK_APP ? (
+        <div className="drawer-shell">
+          {/* Header */}
+          <header className="drawer-header">
+            <h2 className="drawer-title">Book Appointment</h2>
+            <div className="drawer-subtitle">
+              Provider: <strong>{provider?.name}</strong>
             </div>
-          </div>
-        </main>
+          </header>
 
-        {/* Sticky footer */}
-        <footer className="drawer-footer">
-          <button
-            className="save-btn"
-            onClick={handleSubmit}
-            disabled={!canSubmit || submitting || !provider}
-            title={
-              !canSubmit
-                ? "Selected time overlaps an unavailable slot or is zero-length"
-                : "Confirm appointment"
-            }
-          >
-            {submitting ? "Booking…" : "Confirm Appointment"}
-          </button>
-        </footer>
-      </div>
+          {/* Scrollable body */}
+          <main className="drawer-body">
+            {/* Date */}
+            <div className="field">
+              <label htmlFor="dateField" className="field-label">
+                Date
+              </label>
+              <ReactDatePicker
+                id="dateField"
+                selected={date}
+                onChange={(d) => d && setDate(d.toISOString().split("T")[0])}
+                dateFormat="EEE, dd MMM yyyy"
+                minDate={new Date()}
+                shouldCloseOnSelect
+                className="date-input"
+                calendarClassName="brand-datepicker"
+                popperClassName="date-popper"
+                showPopperArrow={false}
+                todayButton="Today"
+              />
+            </div>
+
+            {/* Time range */}
+            <div className="field">
+              <label className="field-label">Time Range</label>
+              <ClockRangePicker
+                value={timeRange}
+                onChange={(next) => setTimeRange(next)}
+                onValidityChange={(ok) => setCanSubmit(ok)}
+                unavailable={unavailable}
+                size={280}
+                stepMinutes={5}
+                showReadout={true}
+                primaryColor="#273A4C"
+              />
+            </div>
+
+            {/* Notes */}
+            <div className="field">
+              <label htmlFor="notesField" className="field-label">
+                Notes (optional)
+              </label>
+              <textarea
+                id="notesField"
+                className="notes-textarea"
+                placeholder="Add any notes for the provider…"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value.slice(0, NOTES_MAX))}
+                rows={5}
+                maxLength={NOTES_MAX}
+              />
+              <div className="help-row">
+                <span className="chars">
+                  {notes.length}/{NOTES_MAX}
+                </span>
+              </div>
+            </div>
+          </main>
+
+          {/* Sticky footer */}
+          <footer className="drawer-footer">
+            <button
+              className="save-btn"
+              onClick={handleSubmit}
+              disabled={!canSubmit || submitting || !provider}
+              title={
+                !canSubmit
+                  ? "Selected time overlaps an unavailable slot or is zero-length"
+                  : "Confirm appointment"
+              }
+            >
+              {submitting ? "Booking…" : "Confirm Appointment"}
+            </button>
+          </footer>
+        </div>
+      ) : pageType === AppDrawPageMode.UPDATE ? (
+        <></>
+      ) : (
+        <></>
+      )}
     </Drawer>
   );
 }

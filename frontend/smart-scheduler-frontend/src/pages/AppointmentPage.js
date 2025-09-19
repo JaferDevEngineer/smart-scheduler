@@ -8,6 +8,7 @@ import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import CreateAppointmentDrawer from "./CreateAppointmentDrawer";
+import {AppDrawPageMode} from "../constants/AppointmentDrawerPageMode"
 const AppointmentsPage = () => {
   const { user } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -74,7 +75,10 @@ const AppointmentsPage = () => {
                 <button
                   className="edit-btn"
                   onClick={() => {
+                    console.log("hello ",JSON.stringify(appt))
+                    setSelectedAppointment(appt);
                     setDrawerOpen(true);
+
                   }}
                 >
                   <FaEdit />
@@ -85,7 +89,8 @@ const AppointmentsPage = () => {
         </tbody>
       </table>
       <CreateAppointmentDrawer
-        page = "update"
+        page = {AppDrawPageMode.UPDATE}
+        appointment = {selectedAppointment}
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
         submit={(consumerId, providerId, startTime, endTime, notes) => {

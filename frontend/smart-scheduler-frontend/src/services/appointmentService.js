@@ -33,7 +33,7 @@ export async function createAppointment(consumerId,providerId,startDateTime,endD
     const res = await Api.post(module, requestBody);
     return res.data;
 }
-export async function updateAppointment(appId, startDateTime,endDateTime,notes,cancelled,dateChanged) {
+export async function updateAppointment(appId, startDateTime, endDateTime, notes, cancelled, dateChanged) {
     const requestBody = {
       dateChanged: dateChanged,
       startDateTime: startDateTime,

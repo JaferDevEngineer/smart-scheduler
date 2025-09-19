@@ -5,6 +5,7 @@ import ProviderCard from "./ProvidersCard";
 import "../pageStyles/ProvidersByCategory.css"
 import CreateAppointmentDrawer from "./CreateAppointmentDrawer";
 import { createAppointment } from "../services/appointmentService";
+import {AppDrawPageMode} from "../constants/AppointmentDrawerPageMode"
 
 const ProvidersByCategory = ({category,onBack}) => {
     const [selectedProvider, setSelectedProvider] = useState(null);
@@ -45,6 +46,7 @@ const ProvidersByCategory = ({category,onBack}) => {
         </div>
         {/* {selectedProvider && ( */}
         <CreateAppointmentDrawer
+          pageType = {AppDrawPageMode.BOOK_APP}
           provider={selectedProvider}
           onClose={() => setDrawerOpen(false)}
           open={drawerOpen}
