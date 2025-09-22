@@ -14,6 +14,10 @@ import smart_scheduler_appointment.appointment_service.Dto.UnAvailableTime;
 import smart_scheduler_appointment.appointment_service.Entitys.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+	
+//	@Query("""
+//			SELECT a FROM Appointment JOIN 
+//			""")
 	List<Appointment> findByConsumerId(Long consumerId);
 
 	List<Appointment> findByProviderId(Long providerId);
@@ -45,8 +49,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 //	AND a.startDateTime >= :dayStart
 //	AND a.startDateTime < :dayEnd
 		boolean hasCustomerConflict(@Param("consumerId") Long consumerId,
-		                            @Param("dayStart") LocalDateTime dayStart,
-		                            @Param("dayEnd") LocalDateTime dayEnd,
 		                            @Param("desiredStart") LocalDateTime desiredStart,
 		                            @Param("desiredEnd") LocalDateTime desiredEnd,
 		                            @Param("updateAppId") String updateAppId);

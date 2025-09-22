@@ -3,15 +3,20 @@ package com.smartScheduler.provider_service.security;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtUtil {
 	
 	@Value("${jwt.secret}")
@@ -30,9 +35,12 @@ public class JwtUtil {
     }
 	public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+            Jws<Claims> map = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+            log.warn("map "+map);
             return true;
         } catch (Exception e) {
+        	log.warn("Issue in validate");
+        	e.printStackTrace();
             return false;
         }
     }

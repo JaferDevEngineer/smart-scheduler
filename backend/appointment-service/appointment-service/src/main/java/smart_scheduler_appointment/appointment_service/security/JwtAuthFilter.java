@@ -36,7 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter{
                 String username = claims.getSubject(); // whatever you put when creating JWT
                 var authentication = new UsernamePasswordAuthenticationToken(
                         username,
-                        null,
+                        token,
                         null // no roles for now, you can map claims to authorities
                 );
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

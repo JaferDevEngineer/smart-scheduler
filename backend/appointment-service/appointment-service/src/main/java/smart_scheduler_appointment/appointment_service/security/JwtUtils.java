@@ -12,7 +12,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtils {
 	@Value("${jwt.secret}")
-	private  String jwtSecret;
+	private  String jwtSecret ;
 	
 	  public  Claims validateToken(String token) {
 		  System.out.println(jwtSecret);

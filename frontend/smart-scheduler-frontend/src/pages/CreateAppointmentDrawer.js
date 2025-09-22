@@ -202,7 +202,10 @@ export default function CreateAppointmentDrawer({
           </footer>
         </div>
       ) : pageType === AppDrawPageMode.UPDATE ? (
-        <></>
+
+        <div className="drawer-shell">
+          
+        </div>
       ) : (
         <></>
       )}

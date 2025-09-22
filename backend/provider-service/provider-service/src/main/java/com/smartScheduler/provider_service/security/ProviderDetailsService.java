@@ -1,7 +1,9 @@
 package com.smartScheduler.provider_service.security;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,7 +31,7 @@ public class ProviderDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         User userData =  new User(
-                user.getEmail(), user.getPassword(), new ArrayList<>());
+                user.getEmail(), user.getPassword(),  List.of(new SimpleGrantedAuthority("ROLE_USER")));
         log.warn("userData "+userData.toString());
         return userData;
     	}catch (UsernameNotFoundException e) {

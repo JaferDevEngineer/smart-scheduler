@@ -18,7 +18,9 @@ import smart_scheduler_appointment.appointment_service.Dto.AnalyticsCount;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentRequestDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentResponseDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentUpdateDTO;
+import smart_scheduler_appointment.appointment_service.Dto.ProviderRequest;
 import smart_scheduler_appointment.appointment_service.Dto.UnAvailableTime;
+import smart_scheduler_appointment.appointment_service.data.ProviderResponse;
 import smart_scheduler_appointment.appointment_service.services.AppointmentService;
 
 @RestController
@@ -78,5 +80,9 @@ public class AppointmentController {
 	public ResponseEntity<AppointmentResponseDTO> update(@RequestBody AppointmentUpdateDTO dto,
 			@PathVariable String appointmentId) {
 		return ResponseEntity.ok(service.updateAppointment(appointmentId, dto));
+	}
+	@PostMapping("/getProviders")
+	public ResponseEntity<List<ProviderResponse>> getProviders(@RequestBody ProviderRequest dto) {
+		return ResponseEntity.ok(service.getProviders(dto));
 	}
 }

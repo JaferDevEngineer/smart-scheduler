@@ -52,6 +52,11 @@ public class ProviderServiceImpl implements ProviderService {
 				.orElse(0));
 	}
 
+	@Override
+	public List<Provider> getProvidersById(ProviderRequest providerRequest) {
+		return providerRespository.findAllById(providerRequest.getIds());
+	}
+
 //	public List<Provider> getAll(){
 //		
 //	}

@@ -12,6 +12,8 @@ public interface ProviderService {
 	public String createUser(AuthRequest auth);
 	
 	public ResponseData<Provider> getProviders(ProviderRequest providerRequest);
+
+	public List<Provider> getProvidersById(ProviderRequest providerRequest);
 	
 	
 

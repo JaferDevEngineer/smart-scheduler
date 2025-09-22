@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/provider")
 @RequiredArgsConstructor
+@Slf4j
 public class ProviderController {
 	
 	private final ProviderService providerService;
@@ -30,5 +31,12 @@ public class ProviderController {
 		if(providerRequest == null )
 			providerRequest = new ProviderRequest();
 		return providerService.getProviders(providerRequest);
+	}
+	@PostMapping("/getById")
+	private List<Provider> getProviderByIds(@RequestBody(required = true ) ProviderRequest providerRequest){
+		log.warn("providerRequest "+providerRequest);
+		if(providerRequest == null )
+			providerRequest = new ProviderRequest();
+		return providerService.getProvidersById(providerRequest);
 	}
 }

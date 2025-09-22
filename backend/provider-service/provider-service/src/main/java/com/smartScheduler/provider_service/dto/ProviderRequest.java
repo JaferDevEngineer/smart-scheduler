@@ -1,5 +1,7 @@
 package com.smartScheduler.provider_service.dto;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -9,5 +11,7 @@ public class ProviderRequest {
 
 	private String email,search,category;
 	private int professionId, limit = 10, page;
+	private List<Long> ids;
+	
 
 }

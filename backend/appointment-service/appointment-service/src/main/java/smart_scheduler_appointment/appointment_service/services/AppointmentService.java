@@ -14,10 +14,13 @@ import smart_scheduler_appointment.appointment_service.Dto.AnalyticsCount;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentRequestDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentResponseDTO;
 import smart_scheduler_appointment.appointment_service.Dto.AppointmentUpdateDTO;
+import smart_scheduler_appointment.appointment_service.Dto.ProviderRequest;
 import smart_scheduler_appointment.appointment_service.Dto.UnAvailableTime;
 import smart_scheduler_appointment.appointment_service.Entitys.Appointment;
 import smart_scheduler_appointment.appointment_service.Repository.AppointmentRepository;
+import smart_scheduler_appointment.appointment_service.client.ProviderClient;
 import smart_scheduler_appointment.appointment_service.data.Constants;
+import smart_scheduler_appointment.appointment_service.data.ProviderResponse;
 import smart_scheduler_appointment.appointment_service.enums.AppointmentStatus;
 import smart_scheduler_appointment.appointment_service.exception.ConflitException;
 
@@ -27,11 +30,11 @@ import smart_scheduler_appointment.appointment_service.exception.ConflitExceptio
 public class AppointmentService {
 
 	private final AppointmentRepository appointmentRepository;
+	private final ProviderClient providerClient;
 
 	// 1️⃣ Create new appointment
 	public AppointmentResponseDTO create(AppointmentRequestDTO dto) {
 		if (!appointmentRepository.hasCustomerConflict(dto.getConsumerId(),
-				dto.getStartDateTime().toLocalDate().atStartOfDay(), dto.getEndDateTime().toLocalDate().atStartOfDay(),
 				dto.getStartDateTime(), dto.getEndDateTime(),null)) {
 
 			Appointment appointment = Appointment.builder().consumerId(dto.getConsumerId())
@@ -46,7 +49,8 @@ public class AppointmentService {
 
 	// 2️⃣ Get appointments by consumer (user)
 	public List<AppointmentResponseDTO> getByConsumer(Long consumerId) {
-		return appointmentRepository.findByConsumerId(consumerId).stream().map(this::mapToResponse).toList();
+		List<AppointmentResponseDTO> app = appointmentRepository.findByConsumerId(consumerId).stream().map(this::mapToResponse).toList();
+		return null;
 	}
 
 	// 3️⃣ Get appointments by provider (business)
@@ -98,7 +102,6 @@ public class AppointmentService {
 
 		} else if (dto.isDateChanged() ) {
 			if(!appointmentRepository.hasCustomerConflict(app.getConsumerId(),
-					dto.getStartDateTime().toLocalDate().atStartOfDay(), dto.getEndDateTime().toLocalDate().atStartOfDay(),
 					dto.getStartDateTime(), dto.getEndDateTime(),app.getUid())) {
 				app.setStartDateTime(dto.getStartDateTime());
 				app.setEndDateTime(dto.getEndDateTime());
@@ -115,6 +118,10 @@ public class AppointmentService {
 	public List<UnAvailableTime> getUnAvailableTimes(AppointmentRequestDTO request) {
 		return appointmentRepository.getUnAvailableTime(request.getConsumerId(), request.getProviderId(),
 				request.getDate());
+	}
+
+	public List<ProviderResponse> getProviders(ProviderRequest dto) {
+		return providerClient.getProviderByIds(dto);
 	}
 
 }
