@@ -28,8 +28,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeHttpRequests()
-//		.requestMatchers("/auth/provider/**","/api/professions/**")
-//				.permitAll()
+		.requestMatchers("/auth/provider/**","/api/professions/**")
+				.permitAll()
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -40,14 +40,14 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(providerDetailsService)
-                .passwordEncoder(passwordEncoder())
-                .and().build();
-    }
+//
+//    @Bean
+//    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+//        return http.getSharedObject(AuthenticationManagerBuilder.class)
+//                .userDetailsService(providerDetailsService)
+//                .passwordEncoder(passwordEncoder())
+//                .and().build();
+//    }
 
 
 }

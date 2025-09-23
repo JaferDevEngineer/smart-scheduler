@@ -1,8 +1,11 @@
 package com.smartScheduler.provider_service.security;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -25,7 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 	
 	 private final JwtUtil jwtUtil;
-	 private final ProviderDetailsService providerDetailsService;
+//	 private final ProviderDetailsService providerDetailsService;
 	    
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -35,20 +38,27 @@ public class JwtFilter extends OncePerRequestFilter {
 		log.warn("in JwtFilter doFilterInternal "+header);
        if (header != null && header.startsWith("Bearer ")) {
            String token = header.substring(7);
-           String email = jwtUtil.extractUsername(token);
+//           String email = jwtUtil.extractUsername(token);
+//
+//           if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//               UserDetails userDetails = providerDetailsService.loadUserByUsername(email);
 
-           if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-               UserDetails userDetails = providerDetailsService.loadUserByUsername(email);
-
-               if (jwtUtil.validateToken(token)) {
+           	   var claims = jwtUtil.validateToken(token);
+           	   log.warn("claims "+claims);
+           	 String username = claims.getSubject();
+           
+//               if (jwtUtil.validateToken(token)) {
+           	List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
                    UsernamePasswordAuthenticationToken authToken =
-                           new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                           new UsernamePasswordAuthenticationToken(username, token, authorities);
 
                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                    log.warn("authentication "+authToken);
                    SecurityContextHolder.getContext().setAuthentication(authToken);
-               }
-           }
+                   log.warn("After JwtFilter setAuthentication: " + SecurityContextHolder.getContext().getAuthentication());
+
+//               }
+//           }
        }
 
        filterChain.doFilter(request, response);

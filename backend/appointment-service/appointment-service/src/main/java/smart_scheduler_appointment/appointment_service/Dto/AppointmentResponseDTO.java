@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import smart_scheduler_appointment.appointment_service.data.ProviderResponse;
 import smart_scheduler_appointment.appointment_service.enums.AppointmentStatus;
 
 @Data
@@ -24,4 +25,5 @@ public class AppointmentResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String providerName;
+    private ProviderResponse provider;
 }

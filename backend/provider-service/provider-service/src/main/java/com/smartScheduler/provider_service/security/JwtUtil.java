@@ -33,17 +33,26 @@ public class JwtUtil {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-	public boolean validateToken(String token) {
-        try {
-            Jws<Claims> map = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
-            log.warn("map "+map);
-            return true;
-        } catch (Exception e) {
-        	log.warn("Issue in validate");
-        	e.printStackTrace();
-            return false;
-        }
-    }
+//	public boolean validateToken(String token) {
+//        try {
+//            Jws<Claims> map = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+//            log.warn("map "+map);
+//            return true;
+//        } catch (Exception e) {
+//        	log.warn("Issue in validate");
+//        	e.printStackTrace();
+//            return false;
+//        }
+//    }
+	public  Claims validateToken(String token) {
+		  System.out.println(jwtSecret);
+	        Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+	        return Jwts.parserBuilder()
+	                .setSigningKey(key)
+	                .build()
+	                .parseClaimsJws(token)
+	                .getBody(); // returns claims (user info, roles, etc.)
+	    }
 
     public String extractUsername(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey())

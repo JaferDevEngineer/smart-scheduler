@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -34,29 +37,35 @@ public class AppointmentService {
 
 	// 1️⃣ Create new appointment
 	public AppointmentResponseDTO create(AppointmentRequestDTO dto) {
-		if (!appointmentRepository.hasCustomerConflict(dto.getConsumerId(),
-				dto.getStartDateTime(), dto.getEndDateTime(),null)) {
+		if (!appointmentRepository.hasCustomerConflict(dto.getConsumerId(), dto.getStartDateTime(),
+				dto.getEndDateTime(), null)) {
 
 			Appointment appointment = Appointment.builder().consumerId(dto.getConsumerId())
 					.providerId(dto.getProviderId()).startDateTime(dto.getStartDateTime())
 					.endDateTime(dto.getEndDateTime()).notes(dto.getNotes()).status(AppointmentStatus.REQUESTED)
 					.rated(false).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
 
-			return mapToResponse(appointmentRepository.save(appointment));
+			return mapToResponse(appointmentRepository.save(appointment),null);
 		}
 		throw new ConflitException(Constants.conflictError);
 	}
 
 	// 2️⃣ Get appointments by consumer (user)
 	public List<AppointmentResponseDTO> getByConsumer(Long consumerId) {
-		List<AppointmentResponseDTO> app = appointmentRepository.findByConsumerId(consumerId).stream().map(this::mapToResponse).toList();
-		return null;
+		List<Appointment> app = appointmentRepository.findByConsumerId(consumerId);
+		Set<Long> providerIds = app.stream().map(a -> a.getProviderId()).collect(Collectors.toSet());
+		Map<Long, ProviderResponse> providersMap = providerClient
+				.getProviderByIds(new ProviderRequest(new ArrayList<>(providerIds))).stream()
+				.collect(Collectors.toMap(ProviderResponse::getId, p -> p));
+		
+				return app.stream().map(a-> mapToResponse(a,providersMap.get(a.getProviderId()))).toList();
+
 	}
 
 	// 3️⃣ Get appointments by provider (business)
-	public List<AppointmentResponseDTO> getByProvider(Long providerId) {
-		return appointmentRepository.findByProviderId(providerId).stream().map(this::mapToResponse).toList();
-	}
+//	public List<AppointmentResponseDTO> getByProvider(Long providerId) {
+//		return appointmentRepository.findByProviderId(providerId).stream().map(this::mapToResponse).toList();
+//	}
 
 	// 4️⃣ Update status (Accept / Decline / Cancel / Complete)
 	public AppointmentResponseDTO updateStatus(Long appointmentId, AppointmentStatus status) {
@@ -66,7 +75,7 @@ public class AppointmentService {
 		appointment.setStatus(status);
 		appointment.setUpdatedAt(LocalDateTime.now());
 
-		return mapToResponse(appointmentRepository.save(appointment));
+		return mapToResponse(appointmentRepository.save(appointment),null);
 	}
 
 	// 5️⃣ Mark appointment as rated
@@ -77,16 +86,16 @@ public class AppointmentService {
 		appointment.setRated(true);
 		appointment.setUpdatedAt(LocalDateTime.now());
 
-		return mapToResponse(appointmentRepository.save(appointment));
+		return mapToResponse(appointmentRepository.save(appointment),null);
 	}
 
 	// Mapper method
-	private AppointmentResponseDTO mapToResponse(Appointment appointment) {
+	private AppointmentResponseDTO mapToResponse(Appointment appointment,ProviderResponse providerResponse) {
 		return AppointmentResponseDTO.builder().id(appointment.getId()).consumerId(appointment.getConsumerId())
 				.providerId(appointment.getProviderId()).startDateTime(appointment.getStartDateTime())
 				.endDateTime(appointment.getEndDateTime()).status(appointment.getStatus()).rated(appointment.getRated())
 				.notes(appointment.getNotes()).createdAt(appointment.getCreatedAt())
-				.updatedAt(appointment.getUpdatedAt()).providerName(appointment.getProviderName()).build();
+				.updatedAt(appointment.getUpdatedAt()).providerName(appointment.getProviderName()).provider(providerResponse).build();
 	}
 
 	public AnalyticsCount consumerAnalytics(long consumerId) {
@@ -96,23 +105,23 @@ public class AppointmentService {
 	public AppointmentResponseDTO updateAppointment(String appointmentId, AppointmentUpdateDTO dto) {
 		Appointment app = appointmentRepository.findByUid(appointmentId)
 				.orElseThrow(() -> new ResolutionException(Constants.INVALID_APP_ID));
-		
+
 		if (dto.isCancelled()) {
 			app.setStatus(AppointmentStatus.CANCELLED);
 
-		} else if (dto.isDateChanged() ) {
-			if(!appointmentRepository.hasCustomerConflict(app.getConsumerId(),
-					dto.getStartDateTime(), dto.getEndDateTime(),app.getUid())) {
+		} else if (dto.isDateChanged()) {
+			if (!appointmentRepository.hasCustomerConflict(app.getConsumerId(), dto.getStartDateTime(),
+					dto.getEndDateTime(), app.getUid())) {
 				app.setStartDateTime(dto.getStartDateTime());
 				app.setEndDateTime(dto.getEndDateTime());
 				app.setStatus(AppointmentStatus.RESCHEDULED);
-			}else
+			} else
 				throw new ConflitException(Constants.conflictError);
 		}
-		
+
 		app.setNotes(dto.getNotes());
 		appointmentRepository.save(app);
-		return mapToResponse(app);
+		return mapToResponse(app,null);
 	}
 
 	public List<UnAvailableTime> getUnAvailableTimes(AppointmentRequestDTO request) {

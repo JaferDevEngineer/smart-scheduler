@@ -43,10 +43,10 @@ public class AppointmentController {
 	}
 
 	// 3️⃣ Get all appointments for a provider (business)
-	@GetMapping("/{providerId}/providerApp")
-	public ResponseEntity<List<AppointmentResponseDTO>> getProviderAppointments(@PathVariable Long providerId) {
-		return ResponseEntity.ok(service.getByProvider(providerId));
-	}
+//	@GetMapping("/{providerId}/providerApp")
+//	public ResponseEntity<List<AppointmentResponseDTO>> getProviderAppointments(@PathVariable Long providerId) {
+//		return ResponseEntity.ok(service.getByProvider(providerId));
+//	}
 
 	@GetMapping("/consumer/{consumerId}/analytics")
 	public ResponseEntity<AnalyticsCount> consumerAnalytics(@PathVariable long consumerId) {
