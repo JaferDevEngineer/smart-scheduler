@@ -26,4 +26,5 @@ public class AppointmentResponseDTO {
     private LocalDateTime updatedAt;
     private String providerName;
     private ProviderResponse provider;
+    private String uid;
 }

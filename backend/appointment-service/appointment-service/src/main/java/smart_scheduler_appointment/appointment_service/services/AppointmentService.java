@@ -45,7 +45,7 @@ public class AppointmentService {
 					.endDateTime(dto.getEndDateTime()).notes(dto.getNotes()).status(AppointmentStatus.REQUESTED)
 					.rated(false).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
 
-			return mapToResponse(appointmentRepository.save(appointment),null);
+			return mapToResponse(appointmentRepository.save(appointment), null);
 		}
 		throw new ConflitException(Constants.conflictError);
 	}
@@ -57,8 +57,7 @@ public class AppointmentService {
 		Map<Long, ProviderResponse> providersMap = providerClient
 				.getProviderByIds(new ProviderRequest(new ArrayList<>(providerIds))).stream()
 				.collect(Collectors.toMap(ProviderResponse::getId, p -> p));
-		
-				return app.stream().map(a-> mapToResponse(a,providersMap.get(a.getProviderId()))).toList();
+		return app.stream().map(a -> mapToResponse(a, providersMap.get(a.getProviderId()))).toList();
 
 	}
 
@@ -75,7 +74,7 @@ public class AppointmentService {
 		appointment.setStatus(status);
 		appointment.setUpdatedAt(LocalDateTime.now());
 
-		return mapToResponse(appointmentRepository.save(appointment),null);
+		return mapToResponse(appointmentRepository.save(appointment), null);
 	}
 
 	// 5️⃣ Mark appointment as rated
@@ -86,16 +85,17 @@ public class AppointmentService {
 		appointment.setRated(true);
 		appointment.setUpdatedAt(LocalDateTime.now());
 
-		return mapToResponse(appointmentRepository.save(appointment),null);
+		return mapToResponse(appointmentRepository.save(appointment), null);
 	}
 
 	// Mapper method
-	private AppointmentResponseDTO mapToResponse(Appointment appointment,ProviderResponse providerResponse) {
+	private AppointmentResponseDTO mapToResponse(Appointment appointment, ProviderResponse providerResponse) {
 		return AppointmentResponseDTO.builder().id(appointment.getId()).consumerId(appointment.getConsumerId())
 				.providerId(appointment.getProviderId()).startDateTime(appointment.getStartDateTime())
 				.endDateTime(appointment.getEndDateTime()).status(appointment.getStatus()).rated(appointment.getRated())
 				.notes(appointment.getNotes()).createdAt(appointment.getCreatedAt())
-				.updatedAt(appointment.getUpdatedAt()).providerName(appointment.getProviderName()).provider(providerResponse).build();
+				.updatedAt(appointment.getUpdatedAt()).providerName(appointment.getProviderName()).uid(appointment.getUid())
+				.provider(providerResponse).build();
 	}
 
 	public AnalyticsCount consumerAnalytics(long consumerId) {
@@ -121,7 +121,7 @@ public class AppointmentService {
 
 		app.setNotes(dto.getNotes());
 		appointmentRepository.save(app);
-		return mapToResponse(app,null);
+		return mapToResponse(app, null);
 	}
 
 	public List<UnAvailableTime> getUnAvailableTimes(AppointmentRequestDTO request) {
