@@ -4,6 +4,7 @@
 .appointment-drawer .drawer-shell {
   height: 100%;
   display: flex;
+
   flex-direction: column;
   background: #fff;
   min-height: 0;
@@ -13,7 +14,40 @@
 .appointment-drawer .drawer-header {
   padding: 12px 16px 8px;
   border-bottom: 1px solid #e2e8f0;
+
 }
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Badge base */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: white;
+}
+
+/* Status-specific colors */
+.status-badge.requested {
+  background-color: #6c757d; /* neutral gray */
+}
+
+.status-badge.accepted {
+  background-color: #28a745; /* green */
+}
+
+.status-badge.cancelled {
+  background-color: #dc3545; /* red */
+}
+
+.status-badge.rescheduled {
+  background-color: #fd7e14; /* orange */
+}
+
 .appointment-drawer .drawer-title {
   margin: 0;
   font: 700 18px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;

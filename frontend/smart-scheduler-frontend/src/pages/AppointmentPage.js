@@ -22,7 +22,9 @@ const AppointmentsPage = () => {
     queryKey: ["appointments", user?.id],
     queryFn: () => getConsumerAppointments(user.id),
     enabled: !!user?.id,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0, // always consider stale
+    refetchOnMount: "always", // refetch whenever component mounts
+    refetchOnWindowFocus: true, // also refetch if user focuses tab
   });
 
   const getStatusClass = (status) => {
@@ -46,6 +48,7 @@ const AppointmentsPage = () => {
   return (
     <div className="appointments-container">
       <h2 className="page-title">Appointments</h2>
+      
       <table className="appointments-table">
         <thead>
           <tr>
@@ -75,10 +78,9 @@ const AppointmentsPage = () => {
                 <button
                   className="edit-btn"
                   onClick={() => {
-                    console.log("hello ",JSON.stringify(appt))
+                    console.log("hello ", JSON.stringify(appt));
                     setSelectedAppointment(appt);
                     setDrawerOpen(true);
-
                   }}
                 >
                   <FaEdit />
@@ -89,17 +91,26 @@ const AppointmentsPage = () => {
         </tbody>
       </table>
       <CreateAppointmentDrawer
-        page = {AppDrawPageMode.UPDATE}
-        appointment = {selectedAppointment}
+        pageType={AppDrawPageMode.UPDATE}
+        appointment={selectedAppointment}
+        provider={selectedAppointment ? selectedAppointment.provider : null}
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
-        submit={(consumerId, providerId, startTime, endTime, notes) => {
+        submit={(
+          appointmentUid,
+          startDateTime,
+          endDateTime,
+          notes,
+          cancelled,
+          dateChanged
+        ) => {
           return updateAppointment(
-            consumerId,
-            providerId,
-            startTime,
-            endTime,
-            notes
+            appointmentUid,
+            startDateTime,
+            endDateTime,
+            notes,
+            cancelled,
+            dateChanged
           );
         }}
       />
