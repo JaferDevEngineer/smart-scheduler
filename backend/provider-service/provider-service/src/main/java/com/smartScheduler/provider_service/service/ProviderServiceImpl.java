@@ -57,6 +57,12 @@ public class ProviderServiceImpl implements ProviderService {
 		return providerRespository.findAllById(providerRequest.getIds());
 	}
 
+	@Override
+	public Provider logIn(AuthRequest auth) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 //	public List<Provider> getAll(){
 //		
 //	}

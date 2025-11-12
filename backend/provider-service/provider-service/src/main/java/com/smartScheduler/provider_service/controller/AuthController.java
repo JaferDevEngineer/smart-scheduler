@@ -49,6 +49,7 @@ public class AuthController {
 		            throw new BadCredentialsException("Invalid credentials");
 		        }
 			String token = jwtUtil.generateToken(authRequest.getEmail());
+			
 			return ResponseEntity.ok(new AuthResponse(token));
 		} catch (BadCredentialsException | UsernameNotFoundException e) {
 			log.error("bad credentials " + authRequest.toString());
